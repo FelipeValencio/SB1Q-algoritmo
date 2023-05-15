@@ -22,7 +22,10 @@ def binary_to_text(binary_sequence):
     text_message = ''
     for binary in binary_list:
         decimal = int(binary, 2)
-        text_message += chr(decimal)
+        try:
+            text_message += chr(decimal)
+        except ValueError:
+            pass
     return text_message
 
 

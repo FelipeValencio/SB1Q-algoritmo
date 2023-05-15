@@ -31,6 +31,10 @@ text_message = input("Enter the text message: ")
 
 # Convert text message to binary data
 binary_data = ' '.join(format(ord(char), '08b') for char in text_message)
+
+# Remove spaces from binary data
+binary_data = binary_data.replace(" ", "")
+
 quaternary_data = binary_to_quaternary(binary_data)
 
 # Send the quaternary data to the receiver
