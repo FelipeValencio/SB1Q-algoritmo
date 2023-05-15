@@ -20,13 +20,17 @@ def binary_to_quaternary(binary_sequence):
 
 # Establish a socket connection
 sender_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-receiver_address = 'IP_ADDRESS_OF_MACHINE_B'  # Replace with the actual IP address of Machine B
+receiver_address = '192.168.100.72'  # Replace with the actual IP address of Machine B
 receiver_port = 12345  # Choose a suitable port number
 receiver_endpoint = (receiver_address, receiver_port)
 sender_socket.connect(receiver_endpoint)
 
 # Example usage
-binary_data = '01011100110010'  # Binary data to be encoded
+# Get the text message from the user
+text_message = input("Enter the text message: ")
+
+# Convert text message to binary data
+binary_data = ' '.join(format(ord(char), '08b') for char in text_message)
 quaternary_data = binary_to_quaternary(binary_data)
 
 # Send the quaternary data to the receiver

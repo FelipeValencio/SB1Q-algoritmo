@@ -17,6 +17,15 @@ def quaternary_to_binary(quaternary_sequence):
     return binary_sequence
 
 
+def binary_to_text(binary_sequence):
+    binary_list = binary_sequence.split()
+    text_message = ''
+    for binary in binary_list:
+        decimal = int(binary, 2)
+        text_message += chr(decimal)
+    return text_message
+
+
 # Establish a socket connection
 receiver_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 receiver_address = '0.0.0.0'  # Listen on all available network interfaces
@@ -37,7 +46,9 @@ quaternary_data = eval(received_data)  # Convert the received string back to a l
 
 # Convert quaternary data to binary
 binary_data = quaternary_to_binary(quaternary_data)
-print("Received Binary Data:", binary_data)
+
+text_message = binary_to_text(binary_data)
+print("Received Text Message:", text_message)
 
 # Close the connection
 sender_socket.close()
