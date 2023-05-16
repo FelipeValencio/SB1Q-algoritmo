@@ -13,10 +13,7 @@ reverse_mapping = {
 
 
 def quaternary_to_binary(quaternary_sequence):
-    binary_sequence = ''
-    for symbol in quaternary_sequence:
-        binary_symbol = reverse_mapping[symbol]
-        binary_sequence += binary_symbol
+    binary_sequence = ''.join(reverse_mapping[symbol] for symbol in quaternary_sequence)
     return binary_sequence
 
 

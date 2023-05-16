@@ -49,6 +49,9 @@ print("Mensagem criptografada: " + str(encrypted_message))
 # Convert text message to binary data
 binary_data = ' '.join(format(byte, '08b') for byte in encrypted_message)
 
+# Remove spaces from binary data
+binary_data = binary_data.replace(" ", "")
+
 print("Mensagem binario: " + str(binary_data))
 
 quaternary_data = binary_to_quaternary(binary_data)
