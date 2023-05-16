@@ -46,21 +46,27 @@ print("Receiver is listening for incoming connections...")
 sender_socket, sender_address = receiver_socket.accept()
 print("Connected to Sender:", sender_address)
 
-# Receive the quaternary data from the sender
-received_data = sender_socket.recv(1024)
+# Receive the quaternary message from the sender
+received_data = sender_socket.recv(1024).decode()
+quaternary_message = eval(received_data)  # Convert the received string back to a list
+
+# Convert quaternary message to binary
+binary_message = quaternary_to_binary(quaternary_message)
+
+# Remove trailing padding from binary message
+binary_message = binary_message.rstrip('0')
+
+# Convert binary message to encrypted message (bytes)
+encrypted_message = int(binary_message, 2).to_bytes((len(binary_message) + 7) // 8, 'big')
 
 # Create an AES cipher instance with the encryption key
 cipher = Fernet(encryption_key)
 
 # Decrypt the message
-decrypted_message = cipher.decrypt(received_data)
+decrypted_message = cipher.decrypt(encrypted_message)
 
-quaternary_data = eval(decrypted_message)  # Convert the received string back to a list
-
-# Convert quaternary data to binary
-binary_data = quaternary_to_binary(quaternary_data)
-
-text_message = binary_to_text(binary_data)
+# Convert the decrypted message to string
+text_message = decrypted_message.decode()
 print("Received Text Message:", text_message)
 
 # Close the connection
