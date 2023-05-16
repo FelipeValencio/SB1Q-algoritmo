@@ -1,4 +1,5 @@
 import socket
+import textwrap
 
 # Define the reverse mapping rules
 reverse_mapping = {
@@ -18,7 +19,8 @@ def quaternary_to_binary(quaternary_sequence):
 
 
 def binary_to_text(binary_sequence):
-    binary_list = [binary_sequence[i:i+8] for i in range(0, len(binary_sequence), 8)]
+    # split o binary_sequence em pedacos de tamaho 8
+    binary_list = textwrap.wrap(binary_sequence, 8)
     text_message = ''
     for binary in binary_list:
         decimal = int(binary, 2)
