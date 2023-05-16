@@ -18,14 +18,11 @@ def quaternary_to_binary(quaternary_sequence):
 
 
 def binary_to_text(binary_sequence):
-    binary_list = binary_sequence.split()
+    binary_list = [binary_sequence[i:i+8] for i in range(0, len(binary_sequence), 8)]
     text_message = ''
     for binary in binary_list:
         decimal = int(binary, 2)
-        try:
-            text_message += chr(decimal)
-        except ValueError:
-            pass
+        text_message += chr(decimal)
     return text_message
 
 
