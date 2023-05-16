@@ -1,6 +1,7 @@
 import base64
 import socket
 from cryptography.fernet import Fernet
+import matplotlib.pyplot as plt
 
 # Define the mapping rules
 mapping = {
@@ -10,11 +11,13 @@ mapping = {
     '11': 3
 }
 
+bits_graph = []
 
 def binary_to_quaternary(binary_sequence):
     quaternary_sequence = []
     for i in range(0, len(binary_sequence), 2):
         bits = binary_sequence[i:i + 2]
+        bits_graph.append(bits)
         quaternary_symbol = mapping[bits]
         quaternary_sequence.append(quaternary_symbol)
     return quaternary_sequence
@@ -47,16 +50,28 @@ encrypted_message = cipher.encrypt(text_message.encode())
 print("Mensagem criptografada: " + str(encrypted_message))
 
 # Convert text message to binary data
-binary_data = ' '.join(format(byte, '08b') for byte in encrypted_message)
-
-# Remove spaces from binary data
-binary_data = binary_data.replace(" ", "")
+binary_data = ''.join(format(byte, '08b') for byte in encrypted_message)
 
 print("Mensagem binario: " + str(binary_data))
 
 quaternary_data = binary_to_quaternary(binary_data)
 
 print("Mensagem algoritmo: " + str(quaternary_data))
+
+x = bits_graph
+
+# Generate the y-axis values (signal amplitudes)
+y = quaternary_data
+
+# Plot the signal graph
+plt.plot(x, y)
+plt.xlabel('Symbol Index')
+plt.ylabel('Signal Amplitude')
+plt.title('2B1Q Signal Graph')
+plt.grid(True)
+
+# Display the graph
+plt.show()
 
 # Send the quaternary data to the receiver
 sender_socket.sendall(str(quaternary_data).encode())
