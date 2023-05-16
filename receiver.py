@@ -43,11 +43,12 @@ sender_socket, sender_address = receiver_socket.accept()
 print("Connected to Sender:", sender_address)
 
 # Receive the quaternary message from the sender
-received_data = sender_socket.recv(1024).decode()
-quaternary_message = ast.literal_eval(received_data)  # Safely evaluate the received string as a list
+received_data = sender_socket.recv(2048).decode()
+received_data_message = received_data.split("]")[0] + ']'
+quaternary_message = ast.literal_eval(received_data_message)  # Safely evaluate the received string as a list
 
 # Receive the encryption key from the sender
-encryption_key_encoded = sender_socket.recv(1024)
+encryption_key_encoded = received_data.split("]")[1]
 encryption_key = base64.urlsafe_b64decode(encryption_key_encoded)
 
 # Convert quaternary message to binary
