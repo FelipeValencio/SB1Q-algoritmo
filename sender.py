@@ -1,3 +1,4 @@
+import base64
 import socket
 from cryptography.fernet import Fernet
 
@@ -19,8 +20,9 @@ def binary_to_quaternary(binary_sequence):
     return quaternary_sequence
 
 
-# Encryption key
-encryption_key = b'ultrasuperdupersecretoxiii'
+# Generate a new encryption key
+encryption_key = Fernet.generate_key()
+encryption_key_encoded = base64.urlsafe_b64encode(encryption_key)
 
 # Establish a socket connection
 sender_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -55,6 +57,7 @@ print("Mensagem algoritmo: " + str(quaternary_data))
 
 # Send the quaternary data to the receiver
 sender_socket.sendall(str(quaternary_data).encode())
+sender_socket.sendall(encryption_key_encoded)
 
 # Close the socket connection
 sender_socket.close()

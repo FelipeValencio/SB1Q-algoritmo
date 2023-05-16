@@ -1,3 +1,4 @@
+import base64
 import socket
 import textwrap
 from cryptography.fernet import Fernet
@@ -29,9 +30,6 @@ def binary_to_text(binary_sequence):
     return text_message
 
 
-# Encryption key
-encryption_key = b'ultrasuperdupersecretoxiii'
-
 # Establish a socket connection
 receiver_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 receiver_address = '0.0.0.0'  # Listen on all available network interfaces
@@ -50,6 +48,10 @@ print("Connected to Sender:", sender_address)
 received_data = sender_socket.recv(1024).decode()
 quaternary_message = eval(received_data)  # Convert the received string back to a list
 
+# Receive the encryption key from the sender
+encryption_key_encoded = sender_socket.recv(1024)
+encryption_key = base64.urlsafe_b64decode(encryption_key_encoded)
+
 # Convert quaternary message to binary
 binary_message = quaternary_to_binary(quaternary_message)
 
@@ -63,11 +65,13 @@ encrypted_message = int(binary_message, 2).to_bytes((len(binary_message) + 7) //
 cipher = Fernet(encryption_key)
 
 # Decrypt the message
-decrypted_message = cipher.decrypt(encrypted_message)
-
-# Convert the decrypted message to string
-text_message = decrypted_message.decode()
-print("Received Text Message:", text_message)
+try:
+    decrypted_message = cipher.decrypt(encrypted_message)
+    # Convert the decrypted message to string
+    text_message = decrypted_message.decode()
+    print("Received Text Message:", text_message)
+except:
+    print("Decryption failed. Incorrect encryption key or padding.")
 
 # Close the connection
 sender_socket.close()
