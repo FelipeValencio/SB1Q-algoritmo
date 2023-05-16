@@ -2,6 +2,7 @@ import base64
 import socket
 import textwrap
 from cryptography.fernet import Fernet
+import ast
 
 # Define the reverse mapping rules
 reverse_mapping = {
@@ -43,7 +44,7 @@ print("Connected to Sender:", sender_address)
 
 # Receive the quaternary message from the sender
 received_data = sender_socket.recv(1024).decode()
-quaternary_message = eval(received_data)  # Convert the received string back to a list
+quaternary_message = ast.literal_eval(received_data)  # Safely evaluate the received string as a list
 
 # Receive the encryption key from the sender
 encryption_key_encoded = sender_socket.recv(1024)
