@@ -1,4 +1,5 @@
 import socket
+from cryptography.fernet import Fernet
 
 # Define the mapping rules
 mapping = {
@@ -18,6 +19,9 @@ def binary_to_quaternary(binary_sequence):
     return quaternary_sequence
 
 
+# Encryption key
+encryption_key = b'ultrasuperdupersecretoxiii'
+
 # Establish a socket connection
 sender_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 receiver_address = '192.168.100.72'  # Replace with the actual IP address of Machine B
@@ -29,11 +33,14 @@ sender_socket.connect(receiver_endpoint)
 # Get the text message from the user
 text_message = input("Enter the text message: ")
 
-# Convert text message to binary data
-binary_data = ' '.join(format(ord(char), '08b') for char in text_message)
+# Create an AES cipher instance with the encryption key
+cipher = Fernet(encryption_key)
 
-# Remove spaces from binary data
-binary_data = binary_data.replace(" ", "")
+# Encrypt the text message
+encrypted_message = cipher.encrypt(text_message.encode())
+
+# Convert text message to binary data
+binary_data = ' '.join(format(byte, '08b') for byte in encrypted_message)
 
 quaternary_data = binary_to_quaternary(binary_data)
 

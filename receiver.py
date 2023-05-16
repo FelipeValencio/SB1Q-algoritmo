@@ -1,5 +1,6 @@
 import socket
 import textwrap
+from cryptography.fernet import Fernet
 
 # Define the reverse mapping rules
 reverse_mapping = {
@@ -28,6 +29,9 @@ def binary_to_text(binary_sequence):
     return text_message
 
 
+# Encryption key
+encryption_key = b'ultrasuperdupersecretoxiii'
+
 # Establish a socket connection
 receiver_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 receiver_address = '0.0.0.0'  # Listen on all available network interfaces
@@ -43,8 +47,15 @@ sender_socket, sender_address = receiver_socket.accept()
 print("Connected to Sender:", sender_address)
 
 # Receive the quaternary data from the sender
-received_data = sender_socket.recv(1024).decode()
-quaternary_data = eval(received_data)  # Convert the received string back to a list
+received_data = sender_socket.recv(1024)
+
+# Create an AES cipher instance with the encryption key
+cipher = Fernet(encryption_key)
+
+# Decrypt the message
+decrypted_message = cipher.decrypt(received_data)
+
+quaternary_data = eval(decrypted_message)  # Convert the received string back to a list
 
 # Convert quaternary data to binary
 binary_data = quaternary_to_binary(quaternary_data)
