@@ -5,20 +5,26 @@ import matplotlib.pyplot as plt
 
 # Define the mapping rules
 mapping = {
-    '00': -3,
-    '01': -1,
-    '10': 1,
-    '11': 3
+    '00': 1,
+    '01': 3,
+    '10': -1,
+    '11': -3
 }
 
 bits_graph = []
 
+
 def binary_to_quaternary(binary_sequence):
     quaternary_sequence = []
+    previous = 1  # 1 para positivo, 0 para negativo
     for i in range(0, len(binary_sequence), 2):
         bits = binary_sequence[i:i + 2]
         bits_graph.append(bits)
-        quaternary_symbol = mapping[bits]
+        quaternary_symbol = mapping[bits] if previous is 1 else -mapping[bits]
+        if quaternary_symbol > 0:
+            previous = 1
+        else:
+            previous = 0
         quaternary_sequence.append(quaternary_symbol)
     return quaternary_sequence
 
@@ -64,7 +70,8 @@ x = bits_graph
 y = quaternary_data
 
 # Plot the signal graph
-plt.plot(x, y)
+plt.plot(x, [-3, -1, 1, 3])
+plt.axis(y)
 plt.xlabel('Symbol Index')
 plt.ylabel('Signal Amplitude')
 plt.title('2B1Q Signal Graph')

@@ -5,16 +5,34 @@ from cryptography.fernet import Fernet
 import ast
 
 # Define the reverse mapping rules
-reverse_mapping = {
-    -3: '00',
-    -1: '01',
+reverse_mapping_previous_positive = {
+    1: '00',
+    3: '01',
+    -1: '10',
+    -3: '11'
+}
+
+reverse_mapping_previous_negtative = {
+    -1: '00',
+    -3: '01',
     1: '10',
     3: '11'
 }
 
 
 def quaternary_to_binary(quaternary_sequence):
-    binary_sequence = ''.join(reverse_mapping[symbol] for symbol in quaternary_sequence)
+    binary_sequence = []
+    previous = 1  # 1 para positivo, 0 para negativo
+    for symbol in quaternary_sequence:
+        if previous is 1:
+            binary = reverse_mapping_previous_positive[symbol]
+        else:
+            binary = reverse_mapping_previous_negtative[symbol]
+        if symbol > 0:
+            previous = 1
+        else:
+            previous = 0
+        binary_sequence.append(binary)
     return binary_sequence
 
 
