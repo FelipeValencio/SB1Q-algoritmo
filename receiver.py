@@ -53,9 +53,8 @@ receiver_address = '0.0.0.0'  # Listen on all available network interfaces
 receiver_port = 12345  # Choose the same port number used by the sender
 receiver_endpoint = (receiver_address, receiver_port)
 receiver_socket.bind(receiver_endpoint)
+receiver_socket.listen(1)
 while True:
-    receiver_socket.listen(1)
-
     print("Receiver is listening for incoming connections...")
 
     # Accept the sender's connection
