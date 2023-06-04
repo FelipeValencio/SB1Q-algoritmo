@@ -20,7 +20,7 @@ def binary_to_quaternary(binary_sequence):
     for i in range(0, len(binary_sequence), 2):
         bits = binary_sequence[i:i + 2]
         bits_graph.append(bits)
-        quaternary_symbol = mapping[bits] if previous is 1 else -mapping[bits]
+        quaternary_symbol = mapping[bits] if previous == 1 else -mapping[bits]
         if quaternary_symbol > 0:
             previous = 1
         else:

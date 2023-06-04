@@ -24,7 +24,7 @@ def quaternary_to_binary(quaternary_sequence):
     binary_sequence = []
     previous = 1  # 1 para positivo, 0 para negativo
     for symbol in quaternary_sequence:
-        if previous is 1:
+        if previous == 1:
             binary = reverse_mapping_previous_positive[symbol]
         else:
             binary = reverse_mapping_previous_negtative[symbol]
