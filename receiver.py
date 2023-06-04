@@ -32,7 +32,7 @@ def quaternary_to_binary(quaternary_sequence):
             previous = 1
         else:
             previous = 0
-        binary_sequence.join(binary)
+        binary_sequence += binary
     return binary_sequence
 
 
