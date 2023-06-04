@@ -71,17 +71,31 @@ sender_socket.sendall(encryption_key_encoded)
 # Close the socket connection
 sender_socket.close()
 
-x = bits_graph
+# Generate the x-axis values (binary sequence)
+bits = []
+for i in range(0, len(binary_data), 2):
+    bits.append(binary_data[i:i + 2])
+x_axis_values = list(bits)
 
-# Generate the y-axis values (signal amplitudes)
-y = quaternary_data
+# Custom X and Y axis values
+y_axis_values = [-3, -1, 1, 3]
 
-# Plot the signal graph
-plt.plot(x, [-3, -1, 1, 3])
-plt.axis(y)
-plt.xlabel('Symbol Index')
-plt.ylabel('Signal Amplitude')
-plt.title('2B1Q Signal Graph')
+# Data points
+data_points = []
+for i in range(0, len(x_axis_values)):
+    data_points.append((quaternary_data[i], x_axis_values[i]))
+
+# Extract X and Y coordinates from data points
+x = [point[1] for point in data_points]
+y = [point[0] for point in data_points]
+
+# Plot data points
+plt.scatter(x, y)
+plt.xlabel('X Axis')
+plt.ylabel('Y Axis')
+plt.title('Custom Axis and Data Points')
+plt.xticks(x_axis_values)
+plt.yticks(y_axis_values)
 plt.grid(True)
 
 # Display the graph
