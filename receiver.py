@@ -21,7 +21,7 @@ reverse_mapping_previous_negtative = {
 
 
 def quaternary_to_binary(quaternary_sequence):
-    binary_sequence = []
+    binary_sequence = ''
     previous = 1  # 1 para positivo, 0 para negativo
     for symbol in quaternary_sequence:
         if previous == 1:
@@ -32,7 +32,7 @@ def quaternary_to_binary(quaternary_sequence):
             previous = 1
         else:
             previous = 0
-        binary_sequence.append(binary)
+        binary_sequence.join(binary)
     return binary_sequence
 
 

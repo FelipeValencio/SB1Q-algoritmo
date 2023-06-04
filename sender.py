@@ -64,6 +64,13 @@ quaternary_data = binary_to_quaternary(binary_data)
 
 print("Mensagem algoritmo: " + str(quaternary_data))
 
+# Send the quaternary data to the receiver
+sender_socket.sendall(str(quaternary_data).encode())
+sender_socket.sendall(encryption_key_encoded)
+
+# Close the socket connection
+sender_socket.close()
+
 x = bits_graph
 
 # Generate the y-axis values (signal amplitudes)
@@ -79,10 +86,3 @@ plt.grid(True)
 
 # Display the graph
 plt.show()
-
-# Send the quaternary data to the receiver
-sender_socket.sendall(str(quaternary_data).encode())
-sender_socket.sendall(encryption_key_encoded)
-
-# Close the socket connection
-sender_socket.close()
