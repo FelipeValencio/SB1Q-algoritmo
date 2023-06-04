@@ -93,4 +93,3 @@ while True:
 
     # Close the connection
     sender_socket.close()
-    receiver_socket.close()
