@@ -45,14 +45,15 @@ def binary_to_text(binary_sequence):
         text_message += chr(decimal)
     return text_message
 
-
-while True:
     # Establish a socket connection
-    receiver_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    receiver_address = '0.0.0.0'  # Listen on all available network interfaces
-    receiver_port = 12345  # Choose the same port number used by the sender
-    receiver_endpoint = (receiver_address, receiver_port)
-    receiver_socket.bind(receiver_endpoint)
+
+
+receiver_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+receiver_address = '0.0.0.0'  # Listen on all available network interfaces
+receiver_port = 12345  # Choose the same port number used by the sender
+receiver_endpoint = (receiver_address, receiver_port)
+receiver_socket.bind(receiver_endpoint)
+while True:
     receiver_socket.listen(1)
 
     print("Receiver is listening for incoming connections...")
