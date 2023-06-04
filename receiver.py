@@ -63,7 +63,7 @@ while True:
     print("Connected to Sender:", sender_address)
 
     # Receive the quaternary message from the sender
-    received_data = sender_socket.recv(2048).decode()
+    received_data = sender_socket.recv(8192).decode()
     received_data_message = received_data.split("]")[0] + ']'
     quaternary_message = ast.literal_eval(received_data_message)  # Safely evaluate the received string as a list
     print("Mensagem algoritmo: " + str(quaternary_message))
