@@ -3,6 +3,7 @@ import socket
 import textwrap
 from cryptography.fernet import Fernet
 import ast
+import matplotlib.pyplot as plt
 
 # Define the reverse mapping rules
 reverse_mapping_previous_positive = {
@@ -65,6 +66,7 @@ while True:
     received_data = sender_socket.recv(2048).decode()
     received_data_message = received_data.split("]")[0] + ']'
     quaternary_message = ast.literal_eval(received_data_message)  # Safely evaluate the received string as a list
+    print("Mensagem algoritmo: " + str(quaternary_message))
 
     # Receive the encryption key from the sender
     encryption_key_encoded = received_data.split("]")[1]
@@ -75,9 +77,11 @@ while True:
 
     # Remove trailing padding from binary message
     binary_message = binary_message.rstrip('0')
+    print("Mensagem binario: " + str(binary_message))
 
     # Convert binary message to encrypted message (bytes)
     encrypted_message = int(binary_message, 2).to_bytes((len(binary_message) + 7) // 8, 'big')
+    print("Mensagem criptografada: " + str(encrypted_message))
 
     # Create an AES cipher instance with the encryption key
     cipher = Fernet(encryption_key)
@@ -93,3 +97,30 @@ while True:
 
     # Close the connection
     sender_socket.close()
+
+    bits = []
+    for i in range(0, len(binary_message), 2):
+        bits.append(binary_message[i:i + 2])
+    binary_codes = bits
+
+    x = range(len(binary_codes))
+    x_labels = [''.join(code) for code in binary_codes]
+
+    plt.figure(figsize=(100, 6))
+
+    # Plot lines with markers
+    plt.step(x, quaternary_message, where='post')
+
+    # Set X and Y axis labels, title, and grid
+    plt.xlabel('Binary Codes')
+    plt.ylabel('Code Values')
+    plt.title('2B1Q Code Mapping')
+    # Set X-axis tick locations and labels
+    plt.xticks(x, x_labels, rotation='vertical')
+    y_tick_values = [-3, -1, 1, 3]
+    plt.yticks(y_tick_values)
+
+    plt.grid(True)
+
+    # Display the graph
+    plt.show()

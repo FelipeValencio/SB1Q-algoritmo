@@ -71,31 +71,28 @@ sender_socket.sendall(encryption_key_encoded)
 # Close the socket connection
 sender_socket.close()
 
-# Generate the x-axis values (binary sequence)
 bits = []
 for i in range(0, len(binary_data), 2):
     bits.append(binary_data[i:i + 2])
-x_axis_values = list(bits)
+binary_codes = bits
 
-# Custom X and Y axis values
-y_axis_values = [-3, -1, 1, 3]
+x = range(len(binary_codes))
+x_labels = [''.join(code) for code in binary_codes]
 
-# Data points
-data_points = []
-for i in range(0, len(x_axis_values)):
-    data_points.append((quaternary_data[i], x_axis_values[i]))
+plt.figure(figsize=(100, 6))
 
-# Extract X and Y coordinates from data points
-x = [point[1] for point in data_points]
-y = [point[0] for point in data_points]
+# Plot lines with markers
+plt.step(x, quaternary_data, where='post')
 
-# Plot data points
-plt.scatter(x, y)
-plt.xlabel('X Axis')
-plt.ylabel('Y Axis')
-plt.title('Custom Axis and Data Points')
-plt.xticks(x_axis_values)
-plt.yticks(y_axis_values)
+# Set X and Y axis labels, title, and grid
+plt.xlabel('Binary Codes')
+plt.ylabel('Code Values')
+plt.title('2B1Q Code Mapping')
+# Set X-axis tick locations and labels
+plt.xticks(x, x_labels, rotation='vertical')
+y_tick_values = [-3, -1, 1, 3]
+plt.yticks(y_tick_values)
+
 plt.grid(True)
 
 # Display the graph
