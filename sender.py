@@ -35,7 +35,7 @@ encryption_key_encoded = base64.urlsafe_b64encode(encryption_key)
 
 # Establish a socket connection
 sender_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-receiver_address = '192.168.100.72'  # Replace with the actual IP address of Machine B
+receiver_address = '10.181.14.116'  # Replace with the actual IP address of Machine B
 receiver_port = 12345  # Choose a suitable port number
 receiver_endpoint = (receiver_address, receiver_port)
 sender_socket.connect(receiver_endpoint)
@@ -65,8 +65,8 @@ quaternary_data = binary_to_quaternary(binary_data)
 print("Mensagem algoritmo: " + str(quaternary_data))
 
 # Send the quaternary data to the receiver
-sender_socket.sendall(str(quaternary_data).encode())
-sender_socket.sendall(encryption_key_encoded)
+sender_socket.sendall(str(quaternary_data).encode() + encryption_key_encoded)
+# sender_socket.sendall(encryption_key_encoded)
 
 # Close the socket connection
 sender_socket.close()
